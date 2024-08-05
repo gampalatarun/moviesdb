@@ -1,4 +1,4 @@
 GET  http://localhost:3000/movies/
 
 
-GET http://localhost:3000/movies/movieId/
+GET http://localhost:3000/movies/51/
