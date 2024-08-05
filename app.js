@@ -58,6 +58,6 @@ app.get('/movies/:movieId/', async (request, response) => {
 
   const getmovieQuery = `select * from movie WHERE movie_id=${movieId};`
 
-  const getmovieDetails = db.get(getmovieQuery)
+  const getmovieDetails =await db.get(getmovieQuery)
   response.send(convertsnakeTocamelCaseofmovieDetails(getmovieDetails))
 })
