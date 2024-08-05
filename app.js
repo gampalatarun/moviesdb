@@ -5,7 +5,8 @@ const sqlite3 = require('sqlite3')
 const path = require('path')
 const dbpath = path.join(__dirname, 'moviesData.db')
 let db = null
-app.use(express.json())
+module.exports = app
+
 const instalizeDbandserver = async () => {
   try {
     db = await open({
@@ -24,7 +25,7 @@ const instalizeDbandserver = async () => {
 
 instalizeDbandserver()
 
-const convertsnakeTocamelofmovieDetails = db => {
+const convertsnakeTocamelCaseofmovieDetails = db => {
   return {
     movieName: db.movie_name,
     movieId: db.movie_id,
@@ -33,7 +34,7 @@ const convertsnakeTocamelofmovieDetails = db => {
   }
 }
 
-const dbObjectofDirectorsnaketoCamel = dbObject => {
+const convertDirectorDetailsSnaketocamelCase = db => {
   return {
     directorName: dbObject.director_name,
     directorId: dbObject.director_id,
@@ -42,7 +43,7 @@ const dbObjectofDirectorsnaketoCamel = dbObject => {
 
 app.get('/movies/', async (request, response) => {
   const movieQuery = `
-  select movie_name From Movie`
+  select movie_name from movie;`
 
   const moviesNames = await db.all(movieQuery)
   response.send(
@@ -57,6 +58,6 @@ app.get('/movies/:movieId/', async (request, response) => {
 
   const getmovieQuery = `select * from movie WHERE movie_id=${movieId};`
 
-  const movie = db.get(getmovieQuery)
-  response.send(movie)
+  const getmovieDetails = db.get(getmovieQuery)
+  response.send(convertsnakeTocamelCaseofmovieDetails(getmovieDetails))
 })
