@@ -48,8 +48,11 @@ app.get('/movies/', async (request, response) => {
   select movie_name from movie;`
 
   const moviesNames = await db.all(movieQuery)
-  response.send(moviesNames)
+  response.send(
+    moviesNames.map((eachmovie) => ({movieName:eachmovie.movie_name})),
+  )
 })
+
 //API3
 
 app.get('/movies/:movieId/', async (request, response) => {
@@ -115,7 +118,11 @@ app.get('/directors/', async (request, response) => {
   
   `
   const getdirectorDetails = await db.all(getdirectorsQuery)
-  response.send(getdirectorDetails)
+  response.send(
+    getdirectorDetails.map(eachDirector =>
+      convertDirectorDetailsSnaketocamelCase(eachDirector),
+    ),
+  )
 })
 
 //AP7
@@ -126,5 +133,9 @@ app.get('/directors/:directorId/movies/', async (request, response) => {
   
   SELECT  movie_name FROM movie WHERE director_id=${directorId}`
   const getdirectorMovieDetails = await db.all(getdirectoridQuery)
-  response.send(getdirectorMovieDetails)
+  response.send(
+    getdirectorMovieDetails.map(eachmovie => ({
+      movieName: eachmovie.movie_name,
+    })),
+  )
 })
