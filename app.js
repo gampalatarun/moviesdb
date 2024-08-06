@@ -36,8 +36,8 @@ const convertsnakeTocamelCaseofmovieDetails = db => {
 
 const convertDirectorDetailsSnaketocamelCase = db => {
   return {
-    directorName: dbObject.director_name,
-    directorId: dbObject.director_id,
+    directorName: db.director_name,
+    directorId: db.director_id,
   }
 }
 
@@ -48,11 +48,7 @@ app.get('/movies/', async (request, response) => {
   select movie_name from movie;`
 
   const moviesNames = await db.all(movieQuery)
-  response.send(
-    moviesNames.map(i => ({
-      movieName: i.movie_name,
-    })),
-  )
+  response.send(moviesNames)
 })
 //API3
 
@@ -98,9 +94,6 @@ app.put('/movies/:movieId/', async (request, response) => {
   response.send('Movie Details Updated')
 })
 
-
-
-
 //API5
 
 app.delete('/movies/:movieId/', async (request, response) => {
@@ -111,7 +104,7 @@ app.delete('/movies/:movieId/', async (request, response) => {
   WHERE movie_id=${movieId};
   `
   await db.run(deletemovieQuery)
-  response.send('Movie Removied')
+  response.send('Movie Removed')
 })
 
 //API6
@@ -132,7 +125,6 @@ app.get('/directors/:directorId/movies/', async (request, response) => {
   const getdirectoridQuery = `
   
   SELECT  movie_name FROM movie WHERE director_id=${directorId}`
-  const getdirectorMovieDetails = await db.get(getdirectoridQuery)
+  const getdirectorMovieDetails = await db.all(getdirectoridQuery)
   response.send(getdirectorMovieDetails)
 })
-
