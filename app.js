@@ -6,7 +6,7 @@ const path = require('path')
 const dbpath = path.join(__dirname, 'moviesData.db')
 let db = null
 module.exports = app
-
+app.use(express.json())
 const instalizeDbandserver = async () => {
   try {
     db = await open({
@@ -58,15 +58,18 @@ app.get('/movies/:movieId/', async (request, response) => {
 
   const getmovieQuery = `select * from movie WHERE movie_id=${movieId};`
 
-  const getmovieDetails =await db.get(getmovieQuery)
+  const getmovieDetails = await db.get(getmovieQuery)
   response.send(convertsnakeTocamelCaseofmovieDetails(getmovieDetails))
 })
 
-
 app.post('/movies/', async (request, response) => {
   const {directorId, movieName, leadActor} = request.body
-  const postMoviequery = `INSERT INTO  movie(director_id,movie_name,lead_actor) 
-  VALUES (${directorId},${movieName},${leadActor});`
-  await db.run(postMoviequery)
+  const postmovieQuery = `INSERT INTO
+    movie( director_id , movie_name , lead_actor) 
+  VALUES (${directorId},
+   '${movieName}',
+    '${leadActor}'
+    );`
+  await db.run(postmovieQuery)
   response.send('Movie Successfully Added')
 })
