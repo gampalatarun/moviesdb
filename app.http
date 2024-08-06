@@ -1,8 +1,12 @@
+###API1
+
 GET  http://localhost:3000/movies/
 
-
+###API2
 GET http://localhost:3000/movies/51/
-####
+
+
+####API3
 POST http://localhost:3000/movies/
 Content=Type:application/json
 {
@@ -11,4 +15,16 @@ Content=Type:application/json
     "directorId":6,
     "movieName":"Jurassic Park",
     "leadActor":"Jeff Goldblum"
+}
+
+
+###API4
+
+PUT http://localhost:3000/movies/47/
+
+Content-Type: application/json
+{
+  "directorId": 24,
+  "movieName": "Thor",
+  "leadActor": "Christopher Hemsworth"
 }
