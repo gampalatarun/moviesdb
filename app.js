@@ -41,6 +41,8 @@ const convertDirectorDetailsSnaketocamelCase = db => {
   }
 }
 
+//API1
+
 app.get('/movies/', async (request, response) => {
   const movieQuery = `
   select movie_name from movie;`
@@ -52,6 +54,7 @@ app.get('/movies/', async (request, response) => {
     })),
   )
 })
+//API3
 
 app.get('/movies/:movieId/', async (request, response) => {
   const {movieId} = request.params
@@ -62,6 +65,7 @@ app.get('/movies/:movieId/', async (request, response) => {
   response.send(convertsnakeTocamelCaseofmovieDetails(getmovieDetails))
 })
 
+//API2
 app.post('/movies/', async (request, response) => {
   const {directorId, movieName, leadActor} = request.body
   const postmovieQuery = `INSERT INTO
@@ -72,4 +76,24 @@ app.post('/movies/', async (request, response) => {
     );`
   await db.run(postmovieQuery)
   response.send('Movie Successfully Added')
+})
+
+//API4
+
+app.put('/movies/:movieId/', async (request, response) => {
+  const {directorId, movieName, leadActor} = request.body //always request the moviename and directorname while using
+  const {movieId} = request.params
+  const updatemovieQuery = `
+  UPDATE 
+  movie
+   SET 
+   director_id=${directorId},
+   movie_name='${movieName}',
+   lead_actor='${leadActor}'
+
+   WHERE movie_id=${movieId};
+  
+  `
+  await db.run(updatemovieQuery)
+  response.send('Movie Details Updated')
 })
