@@ -61,3 +61,12 @@ app.get('/movies/:movieId/', async (request, response) => {
   const getmovieDetails =await db.get(getmovieQuery)
   response.send(convertsnakeTocamelCaseofmovieDetails(getmovieDetails))
 })
+
+
+app.post('/movies/', async (request, response) => {
+  const {directorId, movieName, leadActor} = request.body
+  const postMoviequery = `INSERT INTO  movie(director_id,movie_name,lead_actor) 
+  VALUES (${directorId},${movieName},${leadActor});`
+  await db.run(postMoviequery)
+  response.send('Movie Successfully Added')
+})
