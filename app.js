@@ -97,3 +97,42 @@ app.put('/movies/:movieId/', async (request, response) => {
   await db.run(updatemovieQuery)
   response.send('Movie Details Updated')
 })
+
+
+
+
+//API5
+
+app.delete('/movies/:movieId/', async (request, response) => {
+  const {movieId} = request.params
+  const deletemovieQuery = `
+  DELETE 
+  FROM movie
+  WHERE movie_id=${movieId};
+  `
+  await db.run(deletemovieQuery)
+  response.send('Movie Removied')
+})
+
+//API6
+
+app.get('/directors/', async (request, response) => {
+  const getdirectorsQuery = `
+  SELECT * FROM director
+  
+  `
+  const getdirectorDetails = await db.all(getdirectorsQuery)
+  response.send(getdirectorDetails)
+})
+
+//AP7
+
+app.get('/directors/:directorId/movies/', async (request, response) => {
+  const {directorId} = request.params
+  const getdirectoridQuery = `
+  
+  SELECT  movie_name FROM movie WHERE director_id=${directorId}`
+  const getdirectorMovieDetails = await db.get(getdirectoridQuery)
+  response.send(getdirectorMovieDetails)
+})
+
